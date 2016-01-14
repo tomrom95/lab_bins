@@ -1,7 +1,8 @@
 # lab_bins
 First example code for refactoring
 
-Making a change!!!
+JJI3 has made a change to this file.
 
-Even more changes :)
+Another change to test the credential helper in git.
 
+EMACSIS THE BEEEEST!
