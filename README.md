@@ -1,7 +1,4 @@
 # lab_bins
 First example code for refactoring
 
-Making a change!!!
-
-Even more changes :)
-
+JJI3 has made a change to this file.
