@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -39,7 +40,8 @@ public class Bins {
     }
 
     // add files to the collection of Disks
-    private void allocateDisks (List<Integer> data, PriorityQueue<Disk> pq) {
+    private Collection<Disk> allocateDisks (List<Integer> data) {
+        PriorityQueue<Disk> pq = new PriorityQueue<>();
         pq.add(new Disk(0));
         int diskId = 1;
         for (Integer size : data) {
@@ -56,23 +58,27 @@ public class Bins {
                 pq.add(d2);
             }
         }
+        return pq;
     }
 
     // print contents of given pq and a header, description
-    private void printResults (PriorityQueue<Disk> pq, String description) {
+    private void printResults (Collection<Disk> disks, String description) {
         System.out.println();
         System.out.println("\n" + description + " method");
-        System.out.println("number of disks used: " + pq.size());
-        PriorityQueue<Disk> copy = new PriorityQueue<>(pq);
-        while (!copy.isEmpty()) {
-            System.out.println(copy.poll());
+        System.out.println("number of disks used: " + disks.size());
+        for (Disk d : disks) {
+            System.out.println(d);
         }
     }
 
     // add contents of given data to pq and print results
-    private void runAlgorithm (List<Integer> data, PriorityQueue<Disk> pq, String description) {
-        allocateDisks(data, pq);
-        printResults(pq, description);
+    private void runAlgorithm (List<Integer> data, String description) {
+        List<Integer> copy = new ArrayList<>(data);
+        if (description.equals(WORST_FIT_DECREASING)) {
+            Collections.sort(copy, Collections.reverseOrder());
+        }
+        Collection<Disk> disks = allocateDisks(copy);
+        printResults(disks, description);
     }
 
     /**
@@ -84,10 +90,7 @@ public class Bins {
         List<Integer> data = b.readData(input);
         System.out.println("total size = " + b.getTotal(data) / 1000000.0 + "GB");
 
-        PriorityQueue<Disk> pq = new PriorityQueue<>();
-        b.runAlgorithm(data, pq, WORST_FIT);
-        pq = new PriorityQueue<>();
-        Collections.sort(data, Collections.reverseOrder());
-        b.runAlgorithm(data, pq, WORST_FIT_DECREASING);
+        b.runAlgorithm(data, WORST_FIT);
+        b.runAlgorithm(data, WORST_FIT_DECREASING);
     }
 }
