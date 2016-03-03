@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 
 /**
@@ -75,7 +77,7 @@ public class Bins {
     private void runAlgorithm (List<Integer> data, String description) {
         List<Integer> copy = new ArrayList<>(data);
         if (description.equals(WORST_FIT_DECREASING)) {
-            Collections.sort(copy, Collections.reverseOrder());
+            copy = copy.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
         }
         Collection<Disk> disks = allocateDisks(copy);
         printResults(disks, description);
